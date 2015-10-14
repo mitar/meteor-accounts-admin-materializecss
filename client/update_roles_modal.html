@@ -1,41 +1,32 @@
 <template name="updateRolesModal">
-	<div id="updateroles" class="modal fade" tabindex="-1" data-width="760" style="display:none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				{{> updateRolesModalInner}}
-			</div>
-		</div>
-	</div>
+  <div id="updateroles" class="modal fade" tabindex="-1">
+    {{> updateRolesModalInner}}
+  </div>
 </template>
 
 <template name="updateRolesModalInner">
-	<div class="modal-header">
-		<h4>Update Roles</h4>
-	</div>
- 	<div class="modal-body">
- 		<ul class="list-group">
-			{{#each roles}}
-				{{#if adminRole}}
-					<li class="list-group-item">
-						<em>Admin Role</em>
-						<span class="pull-right">{{this.name}}</span>
-					</li>
-				{{else}}
-					<li class="list-group-item">
-						<button class="btn btn-danger btn-xs remove-role" type="button">Delete</button>
-						<span class="pull-right">{{this.name}}</span>
-					</li>
-				{{/if}}
-			{{/each}}
-		</ul>
-		<div class="input-group">
-			<input type="text" class="form-control add-role-input" value="">
-			<span class="input-group-btn">
-				<button class="btn btn-success add-role disabled" type="button"><span class="glyphicon glyphicon-plus"></span> Create Role</button>
-			</span>
-		</div>
- 	</div>
- 	<div class="modal-footer">
-		<button type="button" data-dismiss="modal" class="btn btn-primary">Done</button>
-	</div>
+  <div class="modal-content">
+    <h5>Update Roles</h5>
+    <ul class="collection">
+      {{#each roles}}
+        <li class="collection-item">
+          {{#if adminRole}}
+            <em>Admin Role</em>
+          {{else}}
+            <span class="btn-danger remove-role waves-effect waves-light"><i
+                class="material-icons">remove_circle_outline</i></span>
+          {{/if}}
+          <span class="right-align">{{this.name}}</span>
+        </li>
+      {{/each}}
+    </ul>
+    <div class="input-field">
+      <input type="text" id="add-role-input" class="col s9 add-role-input" value="">
+      <label for="add-role-input">Add Role</label>
+      <span class="add-role disabled" type="button"><i class="material-icons">add_circle_outline</i></span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn waves-effect waves-light modal-action modal-close">Done</button>
+  </div>
 </template>

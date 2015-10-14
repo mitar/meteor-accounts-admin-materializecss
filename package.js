@@ -1,7 +1,7 @@
 Package.describe({
-	summary: "A roles based account management system using bootstrap 3",
+	summary: "A roles based account management system using materializecss",
   version: "0.2.7",
-  git: "https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3.git"
+  git: "https://github.com/cunneen/meteor-accounts-admin-materializecss.git"
 });
 
 Package.on_use(function (api, where) {

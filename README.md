@@ -1,6 +1,8 @@
-# Accounts Admin UI (Bootstrap 3)
+# Accounts Admin UI (MaterializeCSS)
 
-A roles based account management system using bootstrap 3 for Meteor.
+A roles based account management system using [materialize css](http://materializecss.com/) for Meteor.
+
+This is a fork of the [Bootstrap version](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3).
 
 **Table of Contents**
 

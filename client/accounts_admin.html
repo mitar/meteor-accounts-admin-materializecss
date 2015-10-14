@@ -1,49 +1,54 @@
 <template name="accountsAdmin">
-    <div class="row accounts-search">
-        <div class="col-sm-offset-4 col-sm-8 col-md-offset-6 col-md-6 col-lg-offset-8 col-lg-4">
-            <div class="input-group">
-                <input type="text" class="form-control search-input-filter" value="{{searchFilter}}">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                    <button class="btn btn-default" type="button" data-toggle="modal" href="#updateroles">Manage Roles</button>
-                </span>
-            </div>
-        </div>
+  <div class="row accounts-search">
+    <div class="col s7 input-field">
+      <input type="text" class="form-control search-input-filter" value="{{searchFilter}}" id="searchFilter">
+      <label for="searchFilter">Filter</label>
     </div>
-    <table class='table table-striped'>
-        <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Roles</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each users}}
-                <tr class="{{#if myself _id}}info{{/if}}">
-                    <td>
-                        {{#unless myself _id}}
-                            <span data-toggle="modal" href="#deleteaccount" class="glyphicon glyphicon-trash clickable"></span>
-                            <span data-toggle="modal" href="#updateaccount" class="glyphicon glyphicon-pencil clickable"></span>
-                            <span data-toggle="modal" href="#infoaccount" class="glyphicon glyphicon-info-sign clickable"></span>
-                        {{/unless}}
-                    </td>
-                    <td>
-                        {{#if profile.name}}
-                            {{profile.name}}
-                        {{else}}
-                            {{email}}
-                        {{/if}}
-                    </td>
-                    <td>{{email}}</td>
-                    <td>{{roles}}</td>
-                </tr>
-            {{/each}}
-        </tbody>
-    </table>
-    {{> updateRolesModal}}
-    {{> deleteAccountModal}}
-    {{> infoAccountModal}}
-    {{> updateAccountModal}}
+    <div class="col s1">
+      <button class="btn btn-floating waves-effect waves-light" type="button"><i class="material-icons">search</i></button>
+    </div>
+    <button class="btn waves-effect waves-light modal-trigger col s3 offset-s1" type="button" data-target="updateroles"
+            href="#updateroles">Manage Roles
+    </button>
+
+  </div>
+  <table class='responsive-table highlight'>
+    <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th data-field="profile.name">Name</th>
+      <th data-field="email">Email</th>
+      <th data-field="roles">Roles</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each users}}
+      <tr class="{{#if myself _id}}info{{/if}}">
+        <td>
+          {{#unless myself _id}}
+            <span data-target="deleteaccount" data-toggle="modal" href="#deleteaccount"
+                  class="clickable removebtn modal-trigger"><i class="material-icons">remove_circle_outline</i></span>
+            <span data-toggle="modal" href="#updateaccount" class="clickable editbtn modal-trigger"><i
+                class="material-icons">mode_edit</i></span>
+            <span data-toggle="modal" href="#infoaccount" class="clickable infobtn modal-trigger"><i
+                class="material-icons">info_outline</i></span>
+          {{/unless}}
+        </td>
+        <td>
+          {{#if profile.name}}
+            {{profile.name}}
+          {{else}}
+            {{email}}
+          {{/if}}
+        </td>
+        <td>{{email}}</td>
+        <td>{{roles}}</td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+  {{> updateRolesModal}}
+  {{> deleteAccountModal}}
+  {{> infoAccountModal}}
+  {{> updateAccountModal}}
 </template>

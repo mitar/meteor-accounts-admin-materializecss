@@ -4,7 +4,7 @@ filteredUserQuery = function(userId, filter) {
 		return Meteor.users.find(userId);
 
 	// TODO: configurable limit and paginiation
-	var queryLimit = 25;
+	//var queryLimit = 25;
 
 	if(!!filter) {
 		// TODO: passing to regex directly could be dangerous
@@ -13,9 +13,9 @@ filteredUserQuery = function(userId, filter) {
 				{'profile.name': {$regex: filter, $options: 'i'}},
 				{'emails.address': {$regex: filter, $options: 'i'}}
 			]
-		}, {sort: {emails: 1}, limit: queryLimit});
+		}, {sort: {emails: 1}});
 	} else {
-		users = Meteor.users.find({}, {sort: {emails: 1}, limit: queryLimit});
+		users = Meteor.users.find({}, {sort: {emails: 1}});
 	}
 	return users;
 };

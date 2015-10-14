@@ -63,3 +63,4 @@ Template.updateRolesModalInner.events({
 		}
 	}
 });
+
