@@ -4,6 +4,17 @@ A roles based account management system using [materialize css](http://materiali
 
 This is a fork of the [Bootstrap version](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3).
 
+## Screenshots
+
+List users:
+![list users](https://cloud.githubusercontent.com/assets/1751645/10537096/33cee48c-7422-11e5-9384-e0267e496335.png)
+
+Update users:
+![update user](https://cloud.githubusercontent.com/assets/1751645/10537097/33cf7d84-7422-11e5-90c9-31c92099e71c.png)
+
+New role:
+![new role](https://cloud.githubusercontent.com/assets/1751645/10537095/33cc7ec2-7422-11e5-91c4-a35c8a2b7052.png)
+
 **Table of Contents**
 
 - [TODO](#todo)
@@ -21,7 +32,16 @@ This is a fork of the [Bootstrap version](https://github.com/hharnisc/meteor-acc
 - User impersonation (for admins)
 
 ## History
-**Latest Version:** 0.2.6
+
+**Latest Version:** 0.2.8
+- Update readme with screenshots
+- Fix minor UI bug with placeholder overlapping username
+
+**Version:** 0.2.7
+- materializecss port (forked from upstream here)
+- meteor 0.9.0 package format updates
+
+**Version:** 0.2.6
 - Remove hard dependency to bootstrap-3 (so less-bootstrap-3 or similar can be used). (Thanks to [@johnm](https://github.com/johnm))
 - Documentation updates
 - Fixes [Issue #18](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3/issues/18)
