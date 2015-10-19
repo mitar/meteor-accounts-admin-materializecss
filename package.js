@@ -1,6 +1,6 @@
 Package.describe({
 	summary: "A roles based account management system using materializecss",
-  version: "0.2.8",
+  version: "0.2.9",
   git: "https://github.com/cunneen/meteor-accounts-admin-materializecss.git"
 });
 

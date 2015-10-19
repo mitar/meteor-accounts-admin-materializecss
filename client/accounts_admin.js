@@ -1,3 +1,5 @@
+
+
 Template.accountsAdmin.helpers({
   users: function () {
     return filteredUserQuery(Meteor.userId(), Session.get("userFilter"));
@@ -45,14 +47,20 @@ Template.accountsAdmin.events({
 
   'click .removebtn': function (event, template) {
     Session.set('userInScope', this);
+    $('#deleteaccount').openModal();
   },
 
   'click .infobtn': function (event, template) {
     Session.set('userInScope', this);
+    $('#infoaccount').openModal();
   },
 
   'click .editbtn': function (event, template) {
     Session.set('userInScope', this);
+    $('#updateaccount').openModal();
+  },
+  'click #updaterolesbtn': function(event, template) {
+    $('#updateroles').openModal();
   }
 });
 
@@ -69,5 +77,5 @@ Template.accountsAdmin.rendered = function () {
   searchElement[0].focus();
   searchElement[0].setSelectionRange(pos, pos);
 
-  $('.modal-trigger').leanModal();
+
 };

@@ -61,6 +61,8 @@ Template.updateRolesModalInner.events({
 				buttonElement.classList.add('disabled');
 			});
 		}
-	}
+	},
+  'click .modal-close': function(event, template) {
+    $('#updateroles').closeModal();
+  }
 });
-

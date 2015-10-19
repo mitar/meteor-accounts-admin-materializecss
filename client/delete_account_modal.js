@@ -35,6 +35,8 @@ Template.deleteAccountModalInner.events({
 			}
 			$("#deleteaccount").closeModal();
 		});
-	}
+	},
+  'click .modal-close': function(event, template) {
+    $('#deleteaccount').closeModal();
+  }
 });
-

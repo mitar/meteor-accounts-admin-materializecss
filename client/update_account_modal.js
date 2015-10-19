@@ -81,5 +81,9 @@ Template.updateAccountModalInner.events({
       }
       Session.set('userInScope', Meteor.users.findOne(userId));
     });
+  },
+  'click .modal-close': function(event, template) {
+    $('#updateaccount').closeModal();
   }
 });
+
