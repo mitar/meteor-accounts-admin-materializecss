@@ -33,7 +33,14 @@ New role:
 
 ## History
 
-**Latest Version:** 0.2.8
+**Latest Version:** 0.2.10
+- sort by name, username and then email.
+- add display of username
+
+**Version:** 0.2.9
+- Use event handlers to trigger modals, rather than a single event binding (which prevented modals being triggered for newly-inserted DOM elements)
+
+**Version:** 0.2.8
 - Update readme with screenshots
 - Fix minor UI bug with placeholder overlapping username
 

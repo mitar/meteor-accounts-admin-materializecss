@@ -1,7 +1,6 @@
 Package.describe({
-	summary: "A roles based account management system using materializecss",
-  version: "0.2.9",
-  git: "https://github.com/cunneen/meteor-accounts-admin-materializecss.git"
+	summary: "A fork of cunneen:accounts-admin-materializecss to manage students",
+  version: "0.2.10"
 });
 
 Package.on_use(function (api, where) {
