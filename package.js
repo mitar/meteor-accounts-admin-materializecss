@@ -1,6 +1,6 @@
 Package.describe({
 	summary: "A fork of cunneen:accounts-admin-materializecss to manage students",
-  version: "0.2.10"
+  version: "0.2.11"
 });
 
 Package.on_use(function (api, where) {
@@ -8,6 +8,7 @@ Package.on_use(function (api, where) {
 	api.use('standard-app-packages', ['client', 'server']);
 	api.use("alanning:roles@1.2.8", ['client', 'server']);
 
+  api.add_files('libs/role_hierarchy.js', ['client', 'server']);
 	api.add_files('libs/user_query.js', ['client', 'server']);
 
 	api.add_files('client/startup.js', 'client');
@@ -27,4 +28,5 @@ Package.on_use(function (api, where) {
 	api.add_files('server/startup.js', 'server');
 	api.add_files('server/publish.js', 'server');
 	api.add_files('server/methods.js', 'server');
+  api.export('RolesTree', ['client', 'server']);
 });
