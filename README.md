@@ -21,6 +21,7 @@ New role:
 - [History](#history)
 - [Quick Start](#quick-start)
 - [Iron Router Integration](#iron-router-integration)
+- [Roles Hierarchy](#roles-hierarchy)
 - [Contributing](#contributing)
 
 ## TODO
@@ -32,6 +33,9 @@ New role:
 - User impersonation (for admins)
 
 ## History
+
+**Latest Version:** 0.2.11
+- Add Roles hierarchy functionality.
 
 **Latest Version:** 0.2.10
 - sort by name, username and then email.
@@ -201,6 +205,42 @@ Router.map(function() {
 		}
 	});
 });
+```
+
+## Roles Hierarchy
+
+In your settings.json, you can define a hierarchy of roles:
+
+```json
+{
+  "public": {
+    "accountsAdmin" : {
+      "rolesHierarchy": {
+        "roleName": "admin",
+        "subordinates": [
+          {
+            "roleName": "user-admin",
+            "subordinates": [
+              {
+                "roleName": "teacher",
+                "subordinates": [
+                  {"roleName": "student"}
+                ]
+              }
+            ]}
+        ]
+      }
+    }
+  }
+}
+```
+
+A global object, RolesTree, allows you to query the hierarchy. E.g.
+
+```js
+if (RolesTree.getRoleSubordinate("admin","student")) {
+  console.log("admin has a student subordinate");
+}
 ```
 
 ## Contributing
