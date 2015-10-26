@@ -241,6 +241,9 @@ A global object, RolesTree, allows you to query the hierarchy. E.g.
 if (RolesTree.getRoleSubordinate("admin","student")) {
   console.log("admin has a student subordinate");
 }
+
+// ["user-admin","teacher","student"]
+console.log(JSON.stringify(RolesTree.getAllSubordinatesAsArray("admin")));
 ```
 
 ## Contributing

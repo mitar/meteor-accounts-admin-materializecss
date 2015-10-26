@@ -27,21 +27,46 @@ RolesHierarchy.prototype.findRoleInHierarchy = function (roleName) {
     return thisChild.findRoleInHierarchy(roleName);
   });
 
-},
+};
 /**
  * Return true if the senior role has a subordinate role of the given subordinateRoleName
  * @param {string} seniorRoleName - the name of the senior role
  * @param {string} subordinateRoleName - the name of the subordinate role
  * @returns {object} - the role of the subordinate, or false if not found.
  */
-  RolesHierarchy.prototype.getRoleSubordinate = function (seniorRoleName, subordinateRoleName) {
-    // find the senior role in the hierarchy
-    var seniorRole = this.findRoleInHierarchy(seniorRoleName);
-    // see if the senior role has a subordinate matching the subordinate role
-    var subordinateRole = seniorRole.findRoleInHierarchy(subordinateRoleName);
-    return subordinateRole;
+RolesHierarchy.prototype.getRoleSubordinate = function (seniorRoleName, subordinateRoleName) {
+  // find the senior role in the hierarchy
+  var seniorRole = this.findRoleInHierarchy(seniorRoleName);
+  // see if the senior role has a subordinate matching the subordinate role
+  var subordinateRole = seniorRole.findRoleInHierarchy(subordinateRoleName);
+  return subordinateRole;
 
-  };
+};
+
+/**
+ * Get the names of subordinate roles as an array
+ * @param {string} seniorRoleName - the name of the senior role
+ * @returns {array} - the subordinate roles if any.
+ */
+RolesHierarchy.prototype.getAllSubordinatesAsArray = function (seniorRoleName) {
+
+  // find the senior role in the hierarchy
+  var seniorRole = this.findRoleInHierarchy(seniorRoleName);
+
+  var subordinateRoles = [];
+  if (seniorRole.subordinates && seniorRole.subordinates.length > 0) {
+    // add each subordinate's role name and it's subordinates' names.
+    _.each(seniorRole.subordinates, function(thisRole) {
+      subordinateRoles.push(thisRole.roleName);
+
+      subordinateRoles.push(thisRole.getAllSubordinatesAsArray(thisRole.roleName));
+    });
+    subordinateRoles = _.flatten(subordinateRoles);
+  }
+  return subordinateRoles;
+};
+
+
 
 // client and server
 // if roles hierarchy is defined
