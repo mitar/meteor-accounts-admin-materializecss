@@ -222,13 +222,26 @@ In your settings.json, you can define a hierarchy of roles:
             "roleName": "user-admin",
             "subordinates": [
               {
-                "roleName": "teacher",
+                "roleName": "schoolAdmin",
                 "subordinates": [
-                  {"roleName": "student"}
-                ]
+                  {
+                    "roleName": "teacher",
+                    "subordinates": [
+                      {"roleName": "student"}
+                    ],
+                    "defaultNewUserRoles":["student"],
+                    "profileFilters":["school","classId"]
+
+                  }
+                ],
+                "profileFilters":["school"]
               }
-            ]}
-        ]
+            ],
+            "defaultNewUserRoles":["teacher"]
+
+          }
+        ],
+        "defaultNewUserRoles":["teacher"]
       }
     }
   }
@@ -242,8 +255,28 @@ if (RolesTree.getRoleSubordinate("admin","student")) {
   console.log("admin has a student subordinate");
 }
 
-// ["user-admin","teacher","student"]
-console.log(JSON.stringify(RolesTree.getAllSubordinatesAsArray("admin")));
+var subordinateRoles = RolesTree.getAllSubordinatesAsArray("admin");
+// ["user-admin","schoolAdmin","teacher","student"]
+
+var roleObj = findRoleInHierarchy("teacher");
+// {roleName: "teacher",
+// subordinates: [
+//   {roleName: "student"}
+// ],
+// defaultNewUserRoles:["student"],
+// profileFilters:["school","classId"]}
+
+
+var mySubordinates = RolesTree.getAllMySubordinatesAsArray(Meteor.userId())
+// an array of role names whose roles are below my own roles (union).
+
+var canIAdminister = RolesTree.isUserCanAdministerRole(Meteor.userId(),"teacher");
+// true if I have the role "admin", "user-admin" or "schoolAdmin"; false otherwise.
+
+var canIAdminister = RolesTree.isUserCanAdministerUser(Meteor.userId(),"baddeadbeef");
+// true if the user with id "baddeadbeef" has any role that is a subordinate role of any of my own roles.
+ 
+
 ```
 
 ## Contributing

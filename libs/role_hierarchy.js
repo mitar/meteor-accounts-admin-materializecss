@@ -6,11 +6,15 @@ RolesHierarchy = function (jsTree) {
   this.roleName = jsTree.roleName;
   if (jsTree.subordinates) {
     var children = [];
-    _.each(jsTree.subordinates, function (thisChild) {
-      children.push(new RolesHierarchy(thisChild));
-    });
+    for (var thisChild in jsTree.subordinates) {
+      if (jsTree.subordinates.hasOwnProperty(thisChild)) {
+        children.push(new RolesHierarchy(jsTree.subordinates[thisChild]));
+      }
+    }
     this.subordinates = children;
   }
+  this.defaultNewUserRoles = jsTree.defaultNewUserRoles;
+  this.profileFilters = jsTree.profileFilters;
 };
 /**
  * Find a role in the hierarchy by name
@@ -23,13 +27,19 @@ RolesHierarchy.prototype.findRoleInHierarchy = function (roleName) {
     return this;
   }
   // is it one of the immediate children of this one?
-  return _.find(this.subordinates, function (thisChild) {
-    return thisChild.findRoleInHierarchy(roleName);
-  });
+  if (this.subordinates) {
+    for (var thisChild in this.subordinates) {
+      if (this.subordinates.hasOwnProperty(thisChild)) {
+        return this.subordinates[thisChild].findRoleInHierarchy(roleName);
+      }
+    }
+  }
+  return false;
+
 
 };
 /**
- * Return true if the senior role has a subordinate role of the given subordinateRoleName
+ * Return the subordinate role of the given seniorRoleName
  * @param {string} seniorRoleName - the name of the senior role
  * @param {string} subordinateRoleName - the name of the subordinate role
  * @returns {object} - the role of the subordinate, or false if not found.
@@ -38,15 +48,14 @@ RolesHierarchy.prototype.getRoleSubordinate = function (seniorRoleName, subordin
   // find the senior role in the hierarchy
   var seniorRole = this.findRoleInHierarchy(seniorRoleName);
   // see if the senior role has a subordinate matching the subordinate role
-  var subordinateRole = seniorRole.findRoleInHierarchy(subordinateRoleName);
-  return subordinateRole;
+  return seniorRole.findRoleInHierarchy(subordinateRoleName);
 
 };
 
 /**
  * Get the names of subordinate roles as an array
  * @param {string} seniorRoleName - the name of the senior role
- * @returns {array} - the subordinate roles if any.
+ * @returns {Array} - the subordinate roles if any.
  */
 RolesHierarchy.prototype.getAllSubordinatesAsArray = function (seniorRoleName) {
 
@@ -56,17 +65,80 @@ RolesHierarchy.prototype.getAllSubordinatesAsArray = function (seniorRoleName) {
   var subordinateRoles = [];
   if (seniorRole.subordinates && seniorRole.subordinates.length > 0) {
     // add each subordinate's role name and it's subordinates' names.
-    _.each(seniorRole.subordinates, function(thisRole) {
-      subordinateRoles.push(thisRole.roleName);
-
-      subordinateRoles.push(thisRole.getAllSubordinatesAsArray(thisRole.roleName));
-    });
+    for (var thisRole in seniorRole.subordinates)
+      if (seniorRole.subordinates.hasOwnProperty(thisRole)) {
+        // add our subordinate's name
+        subordinateRoles.push(seniorRole.subordinates[thisRole].roleName);
+        // add our subordinate's subordinates' names.
+        subordinateRoles.push(seniorRole.subordinates[thisRole].getAllSubordinatesAsArray(seniorRole.subordinates[thisRole].roleName));
+      }
     subordinateRoles = _.flatten(subordinateRoles);
   }
   return subordinateRoles;
 };
 
+/**
+ * Get an array of all of the role names that the current user can administer
+ * @param myUserId the userID of the current user
+ * @returns {Array} an array of role names that the current user can administer
+ */
+RolesHierarchy.prototype.getAllMySubordinatesAsArray = function (myUserId) {
+  var rolesICanAdminister = [];
 
+  var myUserObj;
+  myUserObj = Meteor.users.findOne(myUserId);
+
+
+  // I might have a few roles.
+  if (myUserObj) {
+    var myRoles = myUserObj.roles || [];
+    // for each role I have, add the subordinate roles to the list of roles I can administer.
+    for(var thisRole in myRoles) {
+      if (myRoles.hasOwnProperty(thisRole)) {
+        // add this role
+        var thisRoleObjInHierarchy = this.findRoleInHierarchy(myRoles[thisRole]);
+        // add all of the subordinate role names from the hierarchy
+        rolesICanAdminister = _.union(rolesICanAdminister, thisRoleObjInHierarchy.getAllSubordinatesAsArray(myRoles[thisRole]));
+      }
+    }
+  }
+
+  return rolesICanAdminister;
+};
+
+/**
+ * returns true if the given userId can administer the given role.
+ * @param userId meteor userId of the user we're checking
+ * @param roleName
+ */
+RolesHierarchy.prototype.isUserCanAdministerRole = function(userId, roleName) {
+  var allSubordinateRoles = RolesTree.getAllMySubordinatesAsArray(userId);
+  return _.contains(allSubordinateRoles, roleName);
+};
+
+/**
+ * returns true if the given adminId can administer the given userId.
+ * @param adminId the meteor userId of the user we're checking
+ * @param subordinateId the meteor userid of the subordinate to check
+ */
+RolesHierarchy.prototype.isUserCanAdministerUser= function(adminId, subordinateId) {
+  var allAdminSubordinateRoles = RolesTree.getAllMySubordinatesAsArray(adminId);
+  var subordinateUserRoles = [];
+  var subordinateObj = Meteor.users.findOne(subordinateId);
+  if (subordinateObj) {
+    subordinateUserRoles = subordinateObj.roles;
+  }
+
+  for(var subordinateRoleIndex in subordinateUserRoles) {
+    if (subordinateUserRoles.hasOwnProperty(subordinateRoleIndex)) {
+      if (_.contains(allAdminSubordinateRoles, subordinateUserRoles[subordinateRoleIndex])) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
 
 // client and server
 // if roles hierarchy is defined
@@ -77,4 +149,5 @@ if (Meteor.settings &&
 
   // build our roles
   RolesTree = new RolesHierarchy(Meteor.settings.public.accountsAdmin.rolesHierarchy);
+
 }

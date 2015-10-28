@@ -1,21 +1,31 @@
 Meteor.methods({
 	deleteUser: function(userId) {
 		var user = Meteor.user();
-		if (!user || !Roles.userIsInRole(user, ['admin']))
-			throw new Meteor.Error(401, "You need to be an admin to delete a user.");
-
+    if (RolesTree) {
+      if (!user || !RolesTree.isUserCanAdministerUser(user._id,userId)) {
+        throw new Meteor.Error(401, "You don't have privileges to delete user.");
+      }
+    } else {
+      if (!user || !Roles.userIsInRole(user, ['admin']))
+        throw new Meteor.Error(401, "You need to be an admin to delete a user.");
+    }
 		if (user._id == userId)
 			throw new Meteor.Error(422, 'You can\'t delete yourself.');
-		
+
 		// remove the user
 		Meteor.users.remove(userId);
 	},
 
 	addUserRole: function(userId, role) {
 		var user = Meteor.user();
-		if (!user || !Roles.userIsInRole(user, ['admin']))
-			throw new Meteor.Error(401, "You need to be an admin to update a user.");
-
+    if (RolesTree) {
+      if (!user || !RolesTree.isUserCanAdministerRole(user._id, role)) {
+        throw new Meteor.Error(401, "You don't have privileges to assign role " + role + " to users.");
+      }
+    } else {
+      if (!user || !Roles.userIsInRole(user, ['admin']))
+        throw new Meteor.Error(401, "You need to be an admin to update a user.");
+    }
 		if (user._id == userId)
 			throw new Meteor.Error(422, 'You can\'t update yourself.');
 
@@ -33,9 +43,14 @@ Meteor.methods({
 
 	removeUserRole: function(userId, role) {
 		var user = Meteor.user();
-		if (!user || !Roles.userIsInRole(user, ['admin']))
-			throw new Meteor.Error(401, "You need to be an admin to update a user.");
-
+    if (RolesTree) {
+      if (!user || !RolesTree.isUserCanAdministerRole(user._id, role)) {
+        throw new Meteor.Error(401, "You don't have privileges to remove role " + role + " from users.");
+      }
+    } else {
+      if (!user || !Roles.userIsInRole(user, ['admin']))
+        throw new Meteor.Error(401, "You need to be an admin to update a user.");
+    }
 		if (user._id == userId)
 			throw new Meteor.Error(422, 'You can\'t update yourself.');
 
@@ -53,7 +68,7 @@ Meteor.methods({
 	addRole: function(role) {
 		var user = Meteor.user();
 		if (!user || !Roles.userIsInRole(user, ['admin']))
-			throw new Meteor.Error(401, "You need to be an admin to update a user.");
+			throw new Meteor.Error(401, "You need to be an admin to add a role.");
 
 		// handle existing role
 		if (Meteor.roles.find({name: role}).count() > 0 )
@@ -65,7 +80,7 @@ Meteor.methods({
 	removeRole: function(role) {
 		var user = Meteor.user();
 		if (!user || !Roles.userIsInRole(user, ['admin']))
-			throw new Meteor.Error(401, "You need to be an admin to update a user.");
+			throw new Meteor.Error(401, "You need to be an admin to remove a role.");
 
 		// handle non-existing role
 		if (Meteor.roles.find({name: role}).count() < 1 )
@@ -92,9 +107,12 @@ Meteor.methods({
 
 	updateUserInfo: function(id, property, value) {
 		var user = Meteor.user();
-		if (!user || !Roles.userIsInRole(user, ['admin']))
-			throw new Meteor.Error(401, "You need to be an admin to update a user.");
-
+    if (!user || !RolesTree.isUserCanAdministerUser(user._id,id)) {
+      throw new Meteor.Error(401, "You don't have privileges to update this user.");
+    } else {
+      if (!user || !Roles.userIsInRole(user, ['admin']))
+        throw new Meteor.Error(401, "You need to be an admin to update a user.");
+    }
 		if (property !== 'profile.name')
 			throw new Meteor.Error(422, "Only 'name' is supported.");
 

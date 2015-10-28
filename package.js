@@ -12,6 +12,7 @@ Package.on_use(function (api, where) {
 	api.add_files('libs/user_query.js', ['client', 'server']);
 
 	api.add_files('client/startup.js', 'client');
+  api.add_files('client/roles_hierarchy_helpers.js', 'client');
 	api.add_files('client/accounts_admin.html', 'client');
 	api.add_files('client/accounts_admin.js', 'client');
 	api.add_files('client/delete_account_modal.html', 'client');
