@@ -1,6 +1,6 @@
 Package.describe({
 	summary: "A fork of cunneen:accounts-admin-materializecss to manage students",
-  version: "0.2.11"
+  version: "0.2.12"
 });
 
 Package.on_use(function (api, where) {

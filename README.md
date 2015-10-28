@@ -275,7 +275,7 @@ var canIAdminister = RolesTree.isUserCanAdministerRole(Meteor.userId(),"teacher"
 
 var canIAdminister = RolesTree.isUserCanAdministerUser(Meteor.userId(),"baddeadbeef");
 // true if the user with id "baddeadbeef" has any role that is a subordinate role of any of my own roles.
- 
+
 
 ```
 
