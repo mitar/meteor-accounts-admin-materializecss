@@ -34,7 +34,16 @@ New role:
 
 ## History
 
-**Latest Version:** 0.2.11
+**Latest Version:** 0.2.13
+- Roles bug fix
+
+**Version:** 0.2.12
+- fix a few bugs (by removing use of underscore _.each).
+- Add template helper.
+- Filter Meteor.users and Roles publications based on the roles that the user should be able to see.
+- Update server-side methods to allow updates of users by others with more senior roles.
+
+**Version:** 0.2.11
 - Add Roles hierarchy functionality.
 
 **Latest Version:** 0.2.10
