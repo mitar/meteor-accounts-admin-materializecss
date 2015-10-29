@@ -34,7 +34,10 @@ New role:
 
 ## History
 
-**Latest Version:** 0.2.13
+**Latest Version:** 0.2.14
+- Roles bootstrap (minor change)
+
+**Version:** 0.2.13
 - Roles bug fix
 
 **Version:** 0.2.12
