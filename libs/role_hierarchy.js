@@ -97,8 +97,10 @@ RolesHierarchy.prototype.getAllMySubordinatesAsArray = function (myUserId) {
       if (myRoles.hasOwnProperty(thisRole)) {
         // add this role
         var thisRoleObjInHierarchy = this.findRoleInHierarchy(myRoles[thisRole]);
-        // add all of the subordinate role names from the hierarchy
-        rolesICanAdminister = _.union(rolesICanAdminister, thisRoleObjInHierarchy.getAllSubordinatesAsArray(myRoles[thisRole]));
+        if (thisRoleObjInHierarchy) {
+          // add all of the subordinate role names from the hierarchy
+          rolesICanAdminister = _.union(rolesICanAdminister, thisRoleObjInHierarchy.getAllSubordinatesAsArray(myRoles[thisRole]));
+        } // role not in hierarchy. That's OK, but we don't know anything about it.
       }
     }
   }
