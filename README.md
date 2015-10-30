@@ -34,7 +34,10 @@ New role:
 
 ## History
 
-**Latest Version:** 0.2.14
+**Version:** 0.2.15
+- Fix publication so user can only see themselves and subordinates.
+
+**Version:** 0.2.14
 - Roles bootstrap (minor change)
 
 **Version:** 0.2.13
