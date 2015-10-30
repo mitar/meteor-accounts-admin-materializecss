@@ -1,6 +1,5 @@
 filteredUserQuery = function (userId, filter, rolesCriteria, profileFilterCriteria) {
   var queryCriteria = [];
-
   if (!RolesTree) {
     // if not an admin user don't show any other user
     if (!Roles.userIsInRole(userId, ['admin']))
@@ -39,7 +38,7 @@ filteredUserQuery = function (userId, filter, rolesCriteria, profileFilterCriter
     queryCriteria = {};
   }
 
-
+  //console.log("finding users with query criteria: " + JSON.stringify(queryCriteria));
   var users = Meteor.users.find(queryCriteria, {sort: {'profile.name': 1, 'username': 1, emails: 1}});
   return users;
 };

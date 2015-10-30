@@ -18,22 +18,26 @@ Meteor.publish('filteredUsers', function (filter) {
   var rolesCriteria;
   var profileFilterCriteria;
 
+  var myUserId = this.userId;
   // if we have a roles hierarchy, then only show users in subordinate roles
   // This user can see all of the roles it can administer, or all roles if no roles hierarchy is defined.
   if (RolesTree) {
-    var rolesICanAdminister = RolesTree.getAllMySubordinatesAsArray(this.userId);
+    var rolesICanAdminister = RolesTree.getAllMySubordinatesAsArray(myUserId);
     // I might have a few roles.
     rolesCriteria = rolesCriteria || {}; // initialize if needed.
     rolesCriteria["roles"] = {$in: rolesICanAdminister};
 
     // we'll "OR" together the profile filters
-    var meteorUser = Meteor.users.find(this.userId);
-    for (var roleIndex in meteorUser.roles) {
-      if (meteorUser.profile && meteorUser.roles.hasOwnProperty(roleIndex)) {
+    var meteorUser = Meteor.users.findOne({"_id":myUserId});
+
+    var rolesArray = Roles.getRolesForUser(myUserId);
+    for (var roleIndex in rolesArray) {
+      if (meteorUser.profile && rolesArray.hasOwnProperty(roleIndex)) {
         // find this role in the hierarchy
-        var thisRole = RolesTree.findRoleInHierarchy(meteorUser.roles[roleIndex]);
+        var thisRole = RolesTree.findRoleInHierarchy(rolesArray[roleIndex]);
         // copy the profile filters
         if (thisRole && thisRole.profileFilters) { // it might not be in our hierarchy
+
           // loop through the profile filters (if any)
           for (var filterIndex in thisRole.profileFilters) {
             if (thisRole.profileFilters.hasOwnProperty(filterIndex)) {
@@ -42,7 +46,7 @@ Meteor.publish('filteredUsers', function (filter) {
               if (meteorUser.profile.hasOwnProperty(thisProfileFilter)) {
                 // OK let's copy it to our criteria
                 profileFilterCriteria = profileFilterCriteria || {}; // initialize if needed.
-                profileFilterCriteria[thisProfileFilter] = meteorUser.profile[thisProfileFilter];
+                profileFilterCriteria["profile." + thisProfileFilter] = meteorUser.profile[thisProfileFilter];
               }
             }
           }
@@ -52,5 +56,7 @@ Meteor.publish('filteredUsers', function (filter) {
     }
   }
 
-  return filteredUserQuery(this.userId, filter, rolesCriteria, profileFilterCriteria);
+  //console.log("profileFilterCriteria: " + JSON.stringify(profileFilterCriteria));
+
+  return filteredUserQuery(myUserId, filter, rolesCriteria, profileFilterCriteria);
 });
