@@ -24,8 +24,13 @@ Meteor.publish('filteredUsers', function (filter) {
   if (RolesTree) {
     var rolesICanAdminister = RolesTree.getAllMySubordinatesAsArray(myUserId);
     // I might have a few roles.
-    rolesCriteria = rolesCriteria || {}; // initialize if needed.
-    rolesCriteria["roles"] = {$in: rolesICanAdminister};
+    rolesCriteria =
+    {
+      $or: [
+        {"roles": {$in: rolesICanAdminister}},
+        {"roles": {$size: 0}}
+      ]
+    };
 
     // we'll "OR" together the profile filters
     var meteorUser = Meteor.users.findOne({"_id":myUserId});
@@ -56,7 +61,7 @@ Meteor.publish('filteredUsers', function (filter) {
     }
   }
 
-  //console.log("profileFilterCriteria: " + JSON.stringify(profileFilterCriteria));
+  console.log("profileFilterCriteria: " + JSON.stringify(profileFilterCriteria));
 
   return filteredUserQuery(myUserId, filter, rolesCriteria, profileFilterCriteria);
 });
