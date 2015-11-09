@@ -61,7 +61,7 @@ Meteor.publish('filteredUsers', function (filter) {
     }
   }
 
-  console.log("profileFilterCriteria: " + JSON.stringify(profileFilterCriteria));
+  //console.log("profileFilterCriteria: " + JSON.stringify(profileFilterCriteria));
 
   return filteredUserQuery(myUserId, filter, rolesCriteria, profileFilterCriteria);
 });
