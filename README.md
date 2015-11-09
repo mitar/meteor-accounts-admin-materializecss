@@ -34,6 +34,10 @@ New role:
 
 ## History
 
+**Version:** 0.2.16
+- RolesTree: Filter: also show users who don't have ANY role, as long as the
+profileFilter matches.
+
 **Version:** 0.2.15
 - Fix publication so user can only see themselves and subordinates.
 
