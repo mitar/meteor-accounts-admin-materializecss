@@ -33,6 +33,9 @@ New role:
 - User impersonation (for admins)
 
 ## History
+**Version:** 0.2.19
+- The beginning of t9n support.
+
 **Version:** 0.2.18
 - Fix bug preventing non-admins from assigning roles.
 - Allow additional Session "userFilterCriteria" object to filter users
