@@ -3,7 +3,7 @@ var getUsers = function() {
   if (RolesTree) {
     configuredFields = RolesTree.getAllMyFieldsAsObject(Meteor.userId());
   }
-  return filteredUserQuery(Meteor.userId(), Session.get("userFilter"), configuredFields);
+  return filteredUserQuery(Meteor.userId(), Session.get("userFilter"), Session.get("userFilterCriteria"), configuredFields);
 
 };
 
@@ -72,7 +72,7 @@ Template.accountsAdmin.events({
 });
 
 Template.accountsAdmin.rendered = function () {
-  Meteor.subscribe('filteredUsers', Session.get('userFilter'), {
+  Meteor.subscribe('filteredUsers', Session.get('userFilter'), Session.get('userFilterCriteria'), {
     'onReady': function() {},
     'onStop': function(error) { if (error) console.error(error);}
   });

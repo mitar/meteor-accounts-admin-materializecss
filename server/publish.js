@@ -14,7 +14,7 @@ Meteor.publish('roles', function () {
   return Meteor.roles.find(criteria);
 });
 
-Meteor.publish('filteredUsers', function (filter) {
+Meteor.publish('filteredUsers', function (searchString, searchCriteriaObject) {
   var rolesCriteria;
   var profileFilterCriteria;
 
@@ -58,7 +58,6 @@ Meteor.publish('filteredUsers', function (filter) {
               }
             }
           }
-
         }
       }
       fields = RolesTree.visibleUserFields; // get the visible Meteor.user fields that this user can see on subordinates.
@@ -78,7 +77,7 @@ Meteor.publish('filteredUsers', function (filter) {
     //console.log("rolesCriteria: " + JSON.stringify(rolesCriteria));
     //console.log("profileFilterCriteria: " + JSON.stringify(profileFilterCriteria));
 
-    return filteredUserQuery(myUserId, filter, fields, rolesCriteria, profileFilterCriteria);
+    return filteredUserQuery(myUserId, searchString, searchCriteriaObject, fields, rolesCriteria, profileFilterCriteria);
   } else {
     this.stop();
   }

@@ -2,7 +2,7 @@ Meteor.methods({
 	deleteUser: function(userId) {
 		var user = Meteor.user();
     if (RolesTree) {
-      if (!user || !Roles.userIsInRole(user, ['admin']) || !RolesTree.isUserCanAdministerUser(user._id,userId)) {
+      if (!user || (!Roles.userIsInRole(user, ['admin']) && !RolesTree.isUserCanAdministerUser(user._id,userId))) {
         throw new Meteor.Error(401, "You don't have privileges to delete user.");
       }
     } else {
@@ -19,7 +19,7 @@ Meteor.methods({
 	addUserRole: function(userId, role) {
 		var user = Meteor.user();
     if (RolesTree) {
-      if (!user || !Roles.userIsInRole(user, ['admin']) || !RolesTree.isUserCanAdministerRole(user._id, role)) {
+      if (!user || (!Roles.userIsInRole(user, ['admin']) && !RolesTree.isUserCanAdministerRole(user._id, role))) {
         throw new Meteor.Error(401, "You don't have privileges to assign role " + role + " to users.");
       }
     } else {
@@ -44,7 +44,7 @@ Meteor.methods({
 	removeUserRole: function(userId, role) {
 		var user = Meteor.user();
     if (RolesTree) {
-      if (!user || !Roles.userIsInRole(user, ['admin']) || !RolesTree.isUserCanAdministerRole(user._id, role)) {
+      if (!user || (!RolesTree.isUserCanAdministerRole(user._id, role) && !Roles.userIsInRole(user, ['admin'])) ) {
         throw new Meteor.Error(401, "You don't have privileges to remove role " + role + " from users.");
       }
     } else {
@@ -107,7 +107,7 @@ Meteor.methods({
 
 	updateUserInfo: function(id, property, value) {
 		var user = Meteor.user();
-    if (!user || !Roles.userIsInRole(user, ['admin']) || !RolesTree.isUserCanAdministerUser(user._id,id)) {
+    if (!user || (!RolesTree.isUserCanAdministerUser(user._id,id) && !Roles.userIsInRole(user, ['admin']))) {
       throw new Meteor.Error(401, "You don't have privileges to update this user.");
     } else {
       if (!user || !Roles.userIsInRole(user, ['admin']))

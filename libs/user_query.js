@@ -1,13 +1,14 @@
 /**
  * Filter the Meteor.users that this user can see. All criteria is "AND"-ed together.
  * @param {string} userId - the ID of the current user for whom to publish the data
- * @param {string} filter - string (e.g. from Session) that gets OR-ed to other criteria to search on username, profile.name and emails.
+ * @param {string} searchFilterString - string (e.g. from Session) that gets OR-ed to other criteria to search on username, profile.name and emails.
+ * @param {object} searchFilterObject - object (e.g. from Session) that gets OR-ed to other criteria for custom search.
  * @param {object} fields - projection object i.e. the set of fields from Meteor.user to publish.
  * @param {array} rolesCriteria - an array of roles (strings), to filter by Meteor.user.roles
  * @param {object} profileFilterCriteria - object with fixed query criteria e.g. to filter users based on profile properties
  * @returns {*} - the MongoDB cursor for matching users
  */
-filteredUserQuery = function (userId, filter, fields, rolesCriteria, profileFilterCriteria) {
+filteredUserQuery = function (userId, searchFilterString, searchFilterObject, fields, rolesCriteria, profileFilterCriteria) {
   var queryCriteria = [];
   fields = fields || {
       "_id":1,
@@ -29,16 +30,20 @@ filteredUserQuery = function (userId, filter, fields, rolesCriteria, profileFilt
     if (profileFilterCriteria) {
       queryCriteria.push(profileFilterCriteria);
     }
+    // add the custom criteria
+    if (searchFilterObject) {
+      queryCriteria.push(searchFilterObject)
+    }
   }
   // TODO: configurable limit and paginiation
   //var queryLimit = 25;
-  if (!!filter) { // we have a filter
+  if (!!searchFilterString) { // we have a filter
     // TODO: passing to regex directly could be dangerous
     var filterClause = {
       $or: [
-        {'username': {$regex: filter, $options: 'i'}},
-        {'profile.name': {$regex: filter, $options: 'i'}},
-        {'emails.address': {$regex: filter, $options: 'i'}}
+        {'username': {$regex: searchFilterString, $options: 'i'}},
+        {'profile.name': {$regex: searchFilterString, $options: 'i'}},
+        {'emails.address': {$regex: searchFilterString, $options: 'i'}}
       ]
     };
     queryCriteria.push(filterClause);

@@ -33,6 +33,10 @@ New role:
 - User impersonation (for admins)
 
 ## History
+**Version:** 0.2.18
+- Fix bug preventing non-admins from assigning roles.
+- Allow additional Session "userFilterCriteria" object to filter users
+
 **Version:** 0.2.17
 - Tighten up security. Only publish a few fields of Meteor.user .
 - RolesTree: Add ability to configure additional fields to publish.
