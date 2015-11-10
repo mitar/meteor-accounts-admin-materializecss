@@ -33,6 +33,9 @@ New role:
 - User impersonation (for admins)
 
 ## History
+**Version:** 0.2.17
+- Tighten up security. Only publish a few fields of Meteor.user .
+- RolesTree: Add ability to configure additional fields to publish.
 
 **Version:** 0.2.16
 - RolesTree: Filter: also show users who don't have ANY role, as long as the
@@ -246,11 +249,19 @@ In your settings.json, you can define a hierarchy of roles:
                   {
                     "roleName": "teacher",
                     "subordinates": [
-                      {"roleName": "student"}
+                      {"roleName": "student",
+                       // a student can see the following fields
+                       visibleUserFields: {"_id":1,"username": 1,"profile.name": 1,"roles": 1}
+                      }
                     ],
+                    // new users created by a teacher get the student role
                     "defaultNewUserRoles":["student"],
+
+                    // new users created by a teacher get the teacher's profile.school and profile.classId
                     "profileFilters":["school","classId"]
 
+                    // a teacher can see everything a student can see, also email addresses
+                    visibleUserFields: {"emails": 1}
                   }
                 ],
                 "profileFilters":["school"]

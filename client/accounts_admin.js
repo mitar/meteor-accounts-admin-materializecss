@@ -1,8 +1,15 @@
+var getUsers = function() {
+  var configuredFields;
+  if (RolesTree) {
+    configuredFields = RolesTree.getAllMyFieldsAsObject(Meteor.userId());
+  }
+  return filteredUserQuery(Meteor.userId(), Session.get("userFilter"), configuredFields);
 
+};
 
 Template.accountsAdmin.helpers({
   users: function () {
-    return filteredUserQuery(Meteor.userId(), Session.get("userFilter"));
+    return getUsers();
   },
 
   email: function () {
@@ -65,6 +72,10 @@ Template.accountsAdmin.events({
 });
 
 Template.accountsAdmin.rendered = function () {
+  Meteor.subscribe('filteredUsers', Session.get('userFilter'), {
+    'onReady': function() {},
+    'onStop': function(error) { if (error) console.error(error);}
+  });
   var searchElement = document.getElementsByClassName('search-input-filter');
   if (!searchElement)
     return;

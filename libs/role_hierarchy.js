@@ -1,6 +1,11 @@
 /**
  * Create a new role hierarchy
- * @param {object} jsTree - a tree structure matching the structure: <pre>{roleName:"foo",children[{roleName:"fooChild",children:[]}]}</pre>
+ * @param {object} jsTree - a tree structure matching the structure:
+ *    <pre>{roleName:"foo", children: [{roleName:"fooChild", children:[], defaultNewUserRoles: ["pendingApproval"], visibleUserFields: {"_id":1,"username": 1,"profile.name": 1,"roles": 1}]
+ *    defaultNewUserRoles: ["fooChild"],  // users created by foo are given the fooChild role
+ *    profileFilters:["school","classId"], // foo users can see fooChild users whose profile.school and profile.classId match their own.
+ *    visibleUserFields: {"emails": 1} // fields the foo users can see on their subordinates. foo can also see everything that fooChild can see.
+ *    }</pre>
  */
 RolesHierarchy = function (jsTree) {
   this.roleName = jsTree.roleName;
@@ -15,6 +20,7 @@ RolesHierarchy = function (jsTree) {
   }
   this.defaultNewUserRoles = jsTree.defaultNewUserRoles;
   this.profileFilters = jsTree.profileFilters;
+  this.visibleUserFields = jsTree.visibleUserFields;
 };
 /**
  * Find a role in the hierarchy by name
@@ -106,6 +112,42 @@ RolesHierarchy.prototype.getAllMySubordinatesAsArray = function (myUserId) {
   }
 
   return rolesICanAdminister;
+};
+
+/**
+ * Get an object of all of the Meteor.user fields that the current user can see
+ * @param myUserId the userID of the current user
+ * @returns {object} an object of Meteor.user field names that the current user can see, suitable for inclusion as a "fields" property in a Collection query.
+ */
+RolesHierarchy.prototype.getAllMyFieldsAsObject = function (myUserId) {
+  var fieldsICanSee;
+
+  var myUserObj;
+  myUserObj = Meteor.users.findOne(myUserId);
+
+
+  // I might have a few roles.
+  if (myUserObj) {
+    var myRoles = myUserObj.roles || [];
+
+    // I can see everything my subordinates can see, plus maybe some extra fields.
+    var rolesICanAdminister = this.getAllMySubordinatesAsArray(myUserId);
+    var allRolesICanSee = _.union(myRoles, rolesICanAdminister);
+    // for each role I have, add the subordinate's fields to the set of fields I can see.
+    for(var thisRole in allRolesICanSee) {
+      if (allRolesICanSee.hasOwnProperty(thisRole)) {
+        // add this role
+        var thisRoleObjInHierarchy = this.findRoleInHierarchy(allRolesICanSee[thisRole]);
+        if (thisRoleObjInHierarchy) {
+          // add all of the subordinate role names from the hierarchy
+          fieldsICanSee = fieldsICanSee || {}; // initialize if necessary.
+          fieldsICanSee = _.extend(fieldsICanSee, thisRoleObjInHierarchy.visibleUserFields);
+        } // role not in hierarchy. That's OK, but we don't know anything about it.
+      }
+    }
+  }
+
+  return fieldsICanSee;
 };
 
 /**
