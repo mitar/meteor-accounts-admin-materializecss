@@ -11,7 +11,7 @@
     <h5>Account Info</h5>
     {{#with userInScope}}
       <ul class="collection">
-        <li class="collection-item"><strong>Name</strong>
+        <li class="collection-item"><strong>{{t9n "Name"}}</strong>
 					<span class="pull-right">
             {{#if profile.name}}
               {{profile.name}}
@@ -20,7 +20,7 @@
             {{/if}}
           </span>
         </li>
-        <li class="collection-item"><strong>Email</strong><span class="pull-right">{{email}}</span></li>
+        <li class="collection-item"><strong>{{t9n "email"}}</strong><span class="pull-right">{{email}}</span></li>
         <li class="collection-item"><strong>ID</strong><span class="pull-right">{{_id}}</span></li>
         {{#each rolePairs}}
           <li class="collection-item"><strong>{{key}}</strong><span class="pull-right">{{value}}</span></li>
@@ -29,6 +29,6 @@
     {{/with}}
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn modal-action modal-close waves-effect waves-green btn-flat">OK</button>
+    <button type="button" class="btn modal-action modal-close waves-effect waves-green btn-flat">{{t9n "OK"}}</button>
   </div>
 </template>

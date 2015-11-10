@@ -25,12 +25,12 @@ Template.infoAccountModalInner.helpers({
   rolePairs: function () {
     var pairs = [];
     if (!this.roles)
-      pairs.push({key: 'Roles', value: 'None'});
+      pairs.push({key: T9n.get("Roles"), value: 'None'});
 
     for (var role in this.roles) {
       var r = this.roles[role];
       if (role === '0') {
-        pairs.push({key: 'Roles', value: r});
+        pairs.push({key: T9n.get("Roles"), value: r});
       } else {
         pairs.push({key: '-', value: r});
       }

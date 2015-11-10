@@ -1,13 +1,16 @@
 Package.describe({
-	summary: "A fork of cunneen:accounts-admin-materializecss to manage students",
-  version: "0.2.18"
+	summary: "Comprehensive user management for materializecss. Forked from mrt:accounts-admin-ui-bootstrap-3.",
+  version: "0.2.19"
 });
 
 Package.on_use(function (api, where) {
   api.versionsFrom("METEOR@0.9.0");
 	api.use('standard-app-packages', ['client', 'server']);
-	api.use("alanning:roles@1.2.8", ['client', 'server']);
+	api.use(["alanning:roles@1.2.8",'coffeescript', 'softwarerero:accounts-t9n'], ['client', 'server']);
 
+  var path = Npm.require('path');
+  api.add_files(path.join('libs','t9n','en.coffee'), 'client');
+  api.add_files(path.join('libs','t9n','id.coffee'), 'client');
   api.add_files('libs/role_hierarchy.js', ['client', 'server']);
 	api.add_files('libs/user_query.js', ['client', 'server']);
 

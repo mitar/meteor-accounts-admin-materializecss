@@ -9,7 +9,7 @@
 <template name="updateAccountModalInner">
   {{#with userInScope}}
     <div class="modal-body">
-      <h5>Update {{email}}</h5>
+      <h5>{{t9n "update"}} {{email}}</h5>
 
       <form class="col s12">
         <div class="row">
@@ -17,42 +17,42 @@
 
             <input id="profile.name" data-user-id="{{_id}}" class="admin-user-info" name="profile.name"
                    value="{{profile.name}}" placeholder="{{profile.name}}" type="text">
-            <label for="profile.name" class="active">Profile Name</label>
+            <label for="profile.name" class="active">{{t9n "Name"}}</label>
           </div>
         </div>
       </form>
       {{#if roles}}
         <ul class="collection">
-          <li class="collection-header">Assigned Roles:</li>
+          <li class="collection-header">{{t9n "AssignedRoles"}}:</li>
           {{#each roles}}
             <li class="collection-item">
               <span data-user-id="{{../_id}}" class="clickable remove-role waves-effect waves-light">
                 <i class="material-icons">remove_circle_outline</i>
               </span>
-              <span class="right-align">{{this}}</span>
+              <span class="right-align">{{t9n this}}</span>
             </li>
           {{/each}}
         </ul>
       {{else}}
-        This account has no roles.
+        {{t9n "This account has no roles"}}.
       {{/if}}
       {{#if unsetRoles}}
         <ul class="collection">
-          <li class="collection-header">Add Role:</li>
+          <li class="collection-header">{{t9n "AddRoleToUser"}}:</li>
           {{#each unsetRoles}}
             <li class="collection-item">
               <span data-user-id="{{../_id}}" class="clickable addbtn add-role waves-effect waves-light">
                 <i class="material-icons">add_circle_outline</i>
               </span>
-              <span class="right-align">{{this}}</span>
+              <span class="right-align">{{t9n this}}</span>
             </li>
           {{/each}}
         </ul>
       {{else}}
-        <em>All roles already set.</em>
+        <em>{{t9n "All roles have already been set"}}</em>
       {{/if}}
       <div class="modal-footer">
-        <button type="button" class="btn waves-effect waves-light modal-action modal-close">Done</button>
+        <button type="button" class="btn waves-effect waves-light modal-action modal-close">{{t9n "Done"}}</button>
       </div>
     </div>
   {{/with}}
