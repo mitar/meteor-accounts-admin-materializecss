@@ -37,29 +37,7 @@ Meteor.publish('filteredUsers', function (searchString, searchCriteriaObject) {
       // we'll "OR" together the profile filters
       var meteorUser = Meteor.users.findOne({"_id": myUserId});
 
-      var rolesArray = Roles.getRolesForUser(myUserId);
-      for (var roleIndex in rolesArray) {
-        if (meteorUser.profile && rolesArray.hasOwnProperty(roleIndex)) {
-          // find this role in the hierarchy
-          var thisRole = RolesTree.findRoleInHierarchy(rolesArray[roleIndex]);
-          // copy the profile filters
-          if (thisRole && thisRole.profileFilters) { // it might not be in our hierarchy
-
-            // loop through the profile filters (if any)
-            for (var filterIndex in thisRole.profileFilters) {
-              if (thisRole.profileFilters.hasOwnProperty(filterIndex)) {
-                var thisProfileFilter = thisRole.profileFilters[filterIndex];
-                // a profile filter is an array of property names to copy from the user's profile
-                if (meteorUser.profile.hasOwnProperty(thisProfileFilter)) {
-                  // OK let's copy it to our criteria
-                  profileFilterCriteria = profileFilterCriteria || {}; // initialize if needed.
-                  profileFilterCriteria["profile." + thisProfileFilter] = meteorUser.profile[thisProfileFilter];
-                }
-              }
-            }
-          }
-        }
-      }
+      profileFilterCriteria = copyProfileCriteriaFromUser(meteorUser, profileFilterCriteria);
       fields = RolesTree.visibleUserFields; // get the visible Meteor.user fields that this user can see on subordinates.
     }
     fields = fields || { // default field set if none specified.

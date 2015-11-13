@@ -3,7 +3,8 @@ var getUsers = function() {
   if (RolesTree) {
     configuredFields = RolesTree.getAllMyFieldsAsObject(Meteor.userId());
   }
-  return filteredUserQuery(Meteor.userId(), Session.get("userFilter"), Session.get("userFilterCriteria"), configuredFields);
+  var profileFilterCriteria = copyProfileCriteriaFromUser(Meteor.user(),{});
+  return filteredUserQuery(Meteor.userId(), Session.get("userFilter"), Session.get("userFilterCriteria"), configuredFields, undefined, profileFilterCriteria);
 
 };
 
