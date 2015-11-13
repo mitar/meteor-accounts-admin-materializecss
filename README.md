@@ -33,6 +33,9 @@ New role:
 - User impersonation (for admins)
 
 ## History
+**Version:** 0.2.20
+- Use RolesTree-specified profile filter criteria in client query.
+
 **Version:** 0.2.19
 - The beginning of t9n support.
 

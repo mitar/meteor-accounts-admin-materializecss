@@ -1,6 +1,6 @@
 Package.describe({
 	summary: "Comprehensive user management for materializecss. Forked from mrt:accounts-admin-ui-bootstrap-3.",
-  version: "0.2.19"
+  version: "0.2.20"
 });
 
 Package.on_use(function (api, where) {
