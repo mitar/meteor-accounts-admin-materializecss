@@ -69,38 +69,3 @@ filteredUserQuery = function (userId, searchFilterString, searchFilterObject, fi
   return users;
 };
 
-/**
- * Copy the given user's profile properties (as specified in RolesTree) as query criteria.
- * @param {object} meteorUser - the user whose profile to copy
- * @param {object} profileFilterCriteria - existing profileFilterCriteria. Note that if any properties are already specified, they may
- *  get overwritten.
- * @returns {*} the query criteria to ensure only users with the same profile property values will be returned.
- */
-copyProfileCriteriaFromUser = function(meteorUser, profileFilterCriteria) {
-  if (meteorUser && RolesTree) {
-    var rolesArray = Roles.getRolesForUser(meteorUser._id);
-    for (var roleIndex in rolesArray) {
-      if (meteorUser.profile && rolesArray.hasOwnProperty(roleIndex)) {
-        // find this role in the hierarchy
-        var thisRole = RolesTree.findRoleInHierarchy(rolesArray[roleIndex]);
-        // copy the profile filters
-        if (thisRole && thisRole.profileFilters) { // it might not be in our hierarchy
-
-          // loop through the profile filters (if any)
-          for (var filterIndex in thisRole.profileFilters) {
-            if (thisRole.profileFilters.hasOwnProperty(filterIndex)) {
-              var thisProfileFilter = thisRole.profileFilters[filterIndex];
-              // a profile filter is an array of property names to copy from the user's profile
-              if (meteorUser.profile.hasOwnProperty(thisProfileFilter)) {
-                // OK let's copy it to our criteria
-                profileFilterCriteria = profileFilterCriteria || {}; // initialize if needed.
-                profileFilterCriteria["profile." + thisProfileFilter] = meteorUser.profile[thisProfileFilter];
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  return profileFilterCriteria;
-};

@@ -37,8 +37,8 @@ Meteor.publish('filteredUsers', function (searchString, searchCriteriaObject) {
       // we'll "OR" together the profile filters
       var meteorUser = Meteor.users.findOne({"_id": myUserId});
 
-      profileFilterCriteria = copyProfileCriteriaFromUser(meteorUser, profileFilterCriteria);
-      fields = RolesTree.visibleUserFields; // get the visible Meteor.user fields that this user can see on subordinates.
+      profileFilterCriteria = RolesTree.copyProfileCriteriaFromUser(meteorUser, profileFilterCriteria);
+      fields = RolesTree.getAllMyFieldsAsObject(myUserId); // get the visible Meteor.user fields that this user can see on subordinates.
     }
     fields = fields || { // default field set if none specified.
         "_id": 1,

@@ -33,6 +33,11 @@ New role:
 - User impersonation (for admins)
 
 ## History
+
+**Version:** 0.2.21
+- move "copy profile filter" function to RolesTree.
+- Fix bug where profile fields were not being used as criteria.
+
 **Version:** 0.2.20
 - Use RolesTree-specified profile filter criteria in client query.
 
