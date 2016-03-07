@@ -1,6 +1,6 @@
 en =
   Filter: "Filter"
-  Name: "Full Name"
+  Name: "Name"
   Roles: "Roles"
   update: "Update"
   OK: "OK"
