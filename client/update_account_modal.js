@@ -56,9 +56,16 @@ Template.updateAccountModalInner.events({
     Meteor.call('removeUserRole', userId, role, function (error) {
       if (error) {
         // optionally use a meteor errors package
-        if (typeof Errors === "undefined")
+        if (typeof Errors === "undefined") {
+          if (error.reason && error.details) {
+            if (JutoCordovaBridge) {
+              JutoCordovaBridge.alert(error.details,function(){}, error.reason,"OK");
+            } else {
+              alert(error.details);
+            }
+          }
           Log.error('Error: ' + error.reason);
-        else {
+        } else {
           Errors.throw(error.reason);
         }
       }

@@ -235,6 +235,9 @@ var canIAdminister = RolesTree.isUserCanAdministerUser(Meteor.userId(),"baddeadb
 
 ## History
 
+**Version:** 0.2.24
+- Fix issue where user would disappear from the UI if removed from the roles hierarchy (by having all relevant roles removed). Fixed by preventing role removal until another one has been added.
+
 **Version:** 0.2.23
 - merge pull request [pr9](https://github.com/AppWorkshop/meteor-accounts-admin-materializecss/pull/9) from @devgrok
     - cosmetic change to "manage roles" button, no functional changes

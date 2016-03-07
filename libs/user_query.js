@@ -47,8 +47,7 @@ filteredUserQuery = function (userId, searchFilterString, searchFilterObject, fi
       ]
     };
     queryCriteria.push(filterClause);
-  };
-
+  }
   // convert queryCriteria from array of clauses to the actual clause
   if (queryCriteria.length > 1) { // more than one, so "AND" the clauses together.
     queryCriteria = {$or: [{_id: userId},{$and: queryCriteria}]}; // I can see myself.

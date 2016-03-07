@@ -1,6 +1,10 @@
 Package.describe({
 	summary: "Comprehensive user management for materializecss. Forked from mrt:accounts-admin-ui-bootstrap-3.",
-  version: "0.2.23"
+  git: 'https://github.com/AppWorkshop/meteor-accounts-admin-materializecss',
+  // By default, Meteor will default to using README.md for documentation.
+  // To avoid submitting documentation, set this field to null.
+  documentation: 'README.md',
+  version: "0.2.24"
 });
 
 Package.on_use(function (api, where) {

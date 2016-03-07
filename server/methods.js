@@ -55,6 +55,19 @@ Meteor.methods({
       if (!user || (!RolesTree.isUserCanAdministerRole(user._id, role) && !Roles.userIsInRole(user, ['admin'])) ) {
         throw new Meteor.Error(401, "You don't have privileges to remove role " + role + " from users.");
       }
+
+      // If we *do* remove this role from this user, will they still exist in the hierarchy that we can administer?
+      var remainingRoles = _.without(Roles.getRolesForUser(userId), role);
+
+      // is there one role remaining that we can administer? We don't want the user to "disappear" from our hierarchy
+      var oneRemaining = _.find(remainingRoles, function (remainingRole) {
+        return RolesTree.isUserCanAdministerRole(user._id, remainingRole);
+      });
+
+      if (!oneRemaining) {
+        throw new Meteor.Error('last-manageable-role', "Last Manageable Role","Add another role before removing " + role + " from this user.");
+      }
+
     } else {
       if (!user || !Roles.userIsInRole(user, ['admin']))
         throw new Meteor.Error(401, "You need to be an admin to update a user.");
