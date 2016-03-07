@@ -30,15 +30,15 @@ New role:
 Set up a simple admin page
 
 ```sh
-$ mrt create app
+$ meteor create app
 $ cd app
-$ mrt add bootstrap-3		# or mrt add less-bootstrap-3
-$ mrt add accounts-password
-$ mrt add roles
-$ mrt add accounts-ui-bootstrap-3
-$ mrt add accounts-admin-ui-bootstrap-3
-$ mrt remove autopublish
-$ mrt remove insecure
+$ meteor add accounts-password
+$ meteor add alanning:roles
+$ meteor add materialize:materialize
+$ meteor add useraccounts:materialize
+$ meteor add cunneen:accounts-admin-materializecss # <=== this package!
+$ meteor remove autopublish
+$ meteor remove insecure
 ```
 
 **app.js**
