@@ -17,120 +17,13 @@ New role:
 
 **Table of Contents**
 
-- [TODO](#todo)
-- [History](#history)
 - [Quick Start](#quick-start)
 - [Iron Router Integration](#iron-router-integration)
 - [Roles Hierarchy](#roles-hierarchy)
+- [TODO](#todo)
+- [History](#history)
 - [Contributing](#contributing)
 
-## TODO
-
-- ~~Implement UI to create/remove roles (currently done at Meteor.startup)~~ DONE
-- Configurable fields
-- Implement pagination (currently relies on search to find users)
-- Write tests
-- User impersonation (for admins)
-
-## History
-
-**Version:** 0.2.23
-- merge pull request [pr9](https://github.com/AppWorkshop/meteor-accounts-admin-materializecss/pull/9) from @devgrok
-    - cosmetic change to "manage roles" button, no functional changes
-
-**Version:** 0.2.22
-- merge pull request [pr2](https://github.com/AppWorkshop/meteor-accounts-admin-materializecss/pull/2) from @mitar
-    - minor fixes, no functional changes
-
-**Version:** 0.2.21
-- move "copy profile filter" function to RolesTree.
-- Fix bug where profile fields were not being used as criteria.
-
-**Version:** 0.2.20
-- Use RolesTree-specified profile filter criteria in client query.
-
-**Version:** 0.2.19
-- The beginning of t9n support.
-
-**Version:** 0.2.18
-- Fix bug preventing non-admins from assigning roles.
-- Allow additional Session "userFilterCriteria" object to filter users
-
-**Version:** 0.2.17
-- Tighten up security. Only publish a few fields of Meteor.user .
-- RolesTree: Add ability to configure additional fields to publish.
-
-**Version:** 0.2.16
-- RolesTree: Filter: also show users who don't have ANY role, as long as the
-profileFilter matches.
-
-**Version:** 0.2.15
-- Fix publication so user can only see themselves and subordinates.
-
-**Version:** 0.2.14
-- Roles bootstrap (minor change)
-
-**Version:** 0.2.13
-- Roles bug fix
-
-**Version:** 0.2.12
-- fix a few bugs (by removing use of underscore _.each).
-- Add template helper.
-- Filter Meteor.users and Roles publications based on the roles that the user should be able to see.
-- Update server-side methods to allow updates of users by others with more senior roles.
-
-**Version:** 0.2.11
-- Add Roles hierarchy functionality.
-
-**Latest Version:** 0.2.10
-- sort by name, username and then email.
-- add display of username
-
-**Version:** 0.2.9
-- Use event handlers to trigger modals, rather than a single event binding (which prevented modals being triggered for newly-inserted DOM elements)
-
-**Version:** 0.2.8
-- Update readme with screenshots
-- Fix minor UI bug with placeholder overlapping username
-
-**Version:** 0.2.7
-- materializecss port (forked from upstream here)
-- meteor 0.9.0 package format updates
-
-**Version:** 0.2.6
-- Remove hard dependency to bootstrap-3 (so less-bootstrap-3 or similar can be used). (Thanks to [@johnm](https://github.com/johnm))
-- Documentation updates
-- Fixes [Issue #18](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3/issues/18)
-
-**Version:** 0.2.5
-
-- Bump roles version; v1.2.8 is Blaze-compatible (thanks to [@alanning](https://github.com/alanning)!)
-
-**Version:** 0.2.4
-
-- Support [changes made in Meteor 0.8.0-rc0](https://github.com/meteor/meteor/issues/1930)
-- Fixes [Issue #7](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3/issues/7)
-- Update to bootstrap-3.1.1
-
-**Version:** 0.2.3
-
-- Now supports changing usernames from admin interface (thanks to [@djkmiles](https://github.com/djkmiles)!)
-
-**Version:** 0.2.2
-
-- Fixed bugs due to fallout from removing bootstrap-modal
-
-**Version:** 0.2.1
-
-- Removed dependency to bootstrap-modal
-
-**Version:** 0.2.0
-
-- Added UI to create/remove roles
-
-**Version:** 0.1.0
-
-- Created a basic UI to find users, delete users, and modify roles.
 
 ## Quick Start
 
@@ -256,7 +149,7 @@ Router.map(function() {
 
 In your settings.json, you can define a hierarchy of roles:
 
-```json
+```javascript
 {
   "public": {
     "accountsAdmin" : {
@@ -331,6 +224,115 @@ var canIAdminister = RolesTree.isUserCanAdministerUser(Meteor.userId(),"baddeadb
 
 
 ```
+
+## TODO
+
+- ~~Implement UI to create/remove roles (currently done at Meteor.startup)~~ DONE
+- Configurable fields
+- Implement pagination (currently relies on search to find users)
+- Write tests
+- User impersonation (for admins)
+
+## History
+
+**Version:** 0.2.23
+- merge pull request [pr9](https://github.com/AppWorkshop/meteor-accounts-admin-materializecss/pull/9) from @devgrok
+    - cosmetic change to "manage roles" button, no functional changes
+
+**Version:** 0.2.22
+- merge pull request [pr2](https://github.com/AppWorkshop/meteor-accounts-admin-materializecss/pull/2) from @mitar
+    - minor fixes, no functional changes
+
+**Version:** 0.2.21
+- move "copy profile filter" function to RolesTree.
+- Fix bug where profile fields were not being used as criteria.
+
+**Version:** 0.2.20
+- Use RolesTree-specified profile filter criteria in client query.
+
+**Version:** 0.2.19
+- The beginning of t9n support.
+
+**Version:** 0.2.18
+- Fix bug preventing non-admins from assigning roles.
+- Allow additional Session "userFilterCriteria" object to filter users
+
+**Version:** 0.2.17
+- Tighten up security. Only publish a few fields of Meteor.user .
+- RolesTree: Add ability to configure additional fields to publish.
+
+**Version:** 0.2.16
+- RolesTree: Filter: also show users who don't have ANY role, as long as the
+profileFilter matches.
+
+**Version:** 0.2.15
+- Fix publication so user can only see themselves and subordinates.
+
+**Version:** 0.2.14
+- Roles bootstrap (minor change)
+
+**Version:** 0.2.13
+- Roles bug fix
+
+**Version:** 0.2.12
+- fix a few bugs (by removing use of underscore _.each).
+- Add template helper.
+- Filter Meteor.users and Roles publications based on the roles that the user should be able to see.
+- Update server-side methods to allow updates of users by others with more senior roles.
+
+**Version:** 0.2.11
+- Add Roles hierarchy functionality.
+
+**Latest Version:** 0.2.10
+- sort by name, username and then email.
+- add display of username
+
+**Version:** 0.2.9
+- Use event handlers to trigger modals, rather than a single event binding (which prevented modals being triggered for newly-inserted DOM elements)
+
+**Version:** 0.2.8
+- Update readme with screenshots
+- Fix minor UI bug with placeholder overlapping username
+
+**Version:** 0.2.7
+- materializecss port (forked from upstream here)
+- meteor 0.9.0 package format updates
+
+**Version:** 0.2.6
+- Remove hard dependency to bootstrap-3 (so less-bootstrap-3 or similar can be used). (Thanks to [@johnm](https://github.com/johnm))
+- Documentation updates
+- Fixes [Issue #18](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3/issues/18)
+
+**Version:** 0.2.5
+
+- Bump roles version; v1.2.8 is Blaze-compatible (thanks to [@alanning](https://github.com/alanning)!)
+
+**Version:** 0.2.4
+
+- Support [changes made in Meteor 0.8.0-rc0](https://github.com/meteor/meteor/issues/1930)
+- Fixes [Issue #7](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3/issues/7)
+- Update to bootstrap-3.1.1
+
+**Version:** 0.2.3
+
+- Now supports changing usernames from admin interface (thanks to [@djkmiles](https://github.com/djkmiles)!)
+
+**Version:** 0.2.2
+
+- Fixed bugs due to fallout from removing bootstrap-modal
+
+**Version:** 0.2.1
+
+- Removed dependency to bootstrap-modal
+
+**Version:** 0.2.0
+
+- Added UI to create/remove roles
+
+**Version:** 0.1.0
+
+- Created a basic UI to find users, delete users, and modify roles.
+
 
 ## Contributing
 
