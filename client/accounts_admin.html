@@ -1,17 +1,19 @@
 <template name="accountsAdmin">
   <div class="row accounts-search">
-    <div class="col s7 input-field">
+    <div class="col s6">
       <input type="text" class="form-control search-input-filter" value="{{searchFilter}}" id="searchFilter">
       <label for="searchFilter">{{t9n "Filter"}}</label>
     </div>
-    <div class="col s1">
+    <div class="col s2">
       <button class="btn btn-floating waves-effect waves-light" type="button"><i class="material-icons">search</i></button>
     </div>
-    <button class="btn waves-effect waves-light modal-trigger col s3 offset-s1" type="button" data-target="updateroles" id="updaterolesbtn"
+    <div class="col s3 offset-s1">
+    <button class="btn waves-effect waves-light modal-trigger full-width" type="button" data-target="updateroles" id="updaterolesbtn"
             href="#updateroles">Manage Roles
     </button>
-
+    </div>
   </div>
+
   <table class='responsive-table highlight'>
     <thead>
     <tr>
