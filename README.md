@@ -34,6 +34,10 @@ New role:
 
 ## History
 
+**Version:** 0.2.23
+- merge pull request [pr9](https://github.com/AppWorkshop/meteor-accounts-admin-materializecss/pull/9) from @devgrok
+    - cosmetic change to "manage roles" button, no functional changes
+
 **Version:** 0.2.22
 - merge pull request [pr2](https://github.com/AppWorkshop/meteor-accounts-admin-materializecss/pull/2) from @mitar
     - minor fixes, no functional changes
