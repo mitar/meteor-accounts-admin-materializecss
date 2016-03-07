@@ -15,6 +15,9 @@ Meteor.publish('roles', function () {
 });
 
 Meteor.publish('filteredUsers', function (searchString, searchCriteriaObject) {
+  check(searchString, String);
+  check(searchCriteriaObject, Object);
+
   var rolesCriteria;
   var profileFilterCriteria;
 
