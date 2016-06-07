@@ -4,7 +4,8 @@ Package.describe({
   // By default, Meteor will default to using README.md for documentation.
   // To avoid submitting documentation, set this field to null.
   documentation: 'README.md',
-  version: "0.2.24"
+  version: "0.2.24",
+  name: "cunneen:accounts-admin-materializecss"
 });
 
 Package.on_use(function (api, where) {
