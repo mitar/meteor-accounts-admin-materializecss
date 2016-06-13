@@ -10,7 +10,17 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.versionsFrom("METEOR@0.9.0");
-  api.use(["alanning:roles@1.2.8",'coffeescript', 'templating', 'check', 'underscore', 'logging', 'softwarerero:accounts-t9n@1.1.4'], ['client', 'server']);
+	api.use([
+			"alanning:roles@1.2.8",
+			'coffeescript',
+			'templating',
+			'check',
+			'underscore',
+			'logging',
+			'softwarerero:accounts-t9n@1.1.4'],
+		['client',
+			'server']);
+	api.use(['session'],['client']);
 
   var path = Npm.require('path');
   api.add_files(path.join('libs','t9n','en.coffee'), 'client');
