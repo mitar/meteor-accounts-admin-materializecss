@@ -235,6 +235,9 @@ var canIAdminister = RolesTree.isUserCanAdministerUser(Meteor.userId(),"baddeadb
 
 ## History
 
+**Version:** 0.2.25
+- Explicitly use the session package.
+
 **Version:** 0.2.24
 - Fix issue where user would disappear from the UI if removed from the roles hierarchy (by having all relevant roles removed). Fixed by preventing role removal until another one has been added.
 
