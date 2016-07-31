@@ -39,12 +39,14 @@ filteredUserQuery = function (userId, searchFilterString, searchFilterObject, fi
   //var queryLimit = 25;
   if (!!searchFilterString) { // we have a filter
     // TODO: passing to regex directly could be dangerous
-    var filterClause = {
-      $or: [
-        {'username': {$regex: searchFilterString, $options: 'i'}},
-        {'profile.name': {$regex: searchFilterString, $options: 'i'}},
-        {'emails.address': {$regex: searchFilterString, $options: 'i'}}
-      ]
+    var filterClause = { // "OR" the fields together.
+      $or:
+        _.map(fields,function(index,field) {
+          var obj = {};
+          obj[field] = {"$regex": searchFilterString, "$options": 'i'};
+          return obj;
+        })
+
     };
     queryCriteria.push(filterClause);
   }

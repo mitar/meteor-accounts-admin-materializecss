@@ -235,6 +235,9 @@ var canIAdminister = RolesTree.isUserCanAdministerUser(Meteor.userId(),"baddeadb
 
 ## History
 
+**Version:** 0.3.0
+- Filter on all fields specified in RolesTree 'visibleUserFields' property.
+
 **Version:** 0.2.25
 - Explicitly use the session package.
 
